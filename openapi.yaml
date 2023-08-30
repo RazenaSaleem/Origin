@@ -1,0 +1,102 @@
+openapi: 3.0.0
+
+info:
+  title: Employee Management API
+  description: OpenApi specification for managing employee information
+  version: 1.0.0
+
+servers:
+  - url: /
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        EmployeeID:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Department:
+          type: string
+        Position:
+          type: string
+      required:
+        - EmployeeID
+        - FirstName
+        - LastName
+        - Department
+        - Position
+
+paths:
+  /employee:
+    post:
+      description: Creates a new employee
+      operationId: createEmployee
+      requestBody:
+        description: Employee data to add
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '201':
+          description: Employee created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    get:
+      description: Returns all employees
+      operationId: getEmployees
+      responses:
+        '200':
+          description: Employees list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+
+  /employee/{EmployeeID}:
+    put:
+      description: Updates an employee's information
+      operationId: updateEmployee
+      parameters:
+        - name: EmployeeID
+          in: path
+          description: ID of the employee to update
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated employee information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Employee updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    delete:
+      description: Deletes an employee
+      operationId: deleteEmployee
+      parameters:
+        - name: EmployeeID
+          in: path
+          description: ID of the employee to delete
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Employee deleted successfully
